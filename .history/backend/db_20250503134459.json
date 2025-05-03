@@ -1,0 +1,200 @@
+[
+  {
+    "view": 120,
+    "name": "Áo Thun Nam Basic",
+    "price": 2000000,
+    "image": "/img/p_img1.png",
+    "description": "Áo thun nam chất liệu cotton mềm mại, thoáng mát.",
+    "category": "Nam",
+    "createdAt": "2025-03-21T11:30:00Z" 
+  },
+  {
+    "view": 234,
+    "name": "Áo Polo Cao Cấp",
+    "price": 350000,
+    "image": "/img/p_img2.png",
+    "description": "Áo polo vải cá sấu, phong cách thanh lịch, sang trọng.",
+    "category": "Nam",
+    "createdAt": "2025-03-20T10:00:00Z"
+  },
+  {
+    "view": 735,
+    "name": "Áo Hoodie Nam",
+    "price": 450000,
+    "image": "/img/p_img3.png",
+    "description": "Áo hoodie nỉ dày dặn, giữ ấm tốt, thích hợp mùa đông.",
+    "category": "Nam",
+    "createdAt": "2025-03-19T09:45:00Z"
+  },
+  {
+    "view": 953,
+    "name": "Áo Khoác Dạ Nam",
+    "price": 750000,
+    "image": "/img/p_img4.png",
+    "description": "Áo khoác dạ sang trọng, phù hợp đi làm, đi chơi.",
+    "category": "Nam",
+    "createdAt": "2025-03-18T08:20:00Z"
+  },
+  {
+    "view": 185,
+    "name": "Áo Sơ Mi Trắng",
+    "price": 300000,
+    "image": "/img/p_img5.png",
+    "description": "Áo sơ mi trắng cổ điển, thích hợp cho mọi dịp.",
+    "category": "Nam",
+    "createdAt": "2025-03-17T14:10:00Z"
+  },
+  {
+    "view": 721,
+    "name": "Áo Sơ Mi Kẻ Sọc",
+    "price": 320000,
+    "image": "/img/p_img6.png",
+    "description": "Áo sơ mi nam họa tiết kẻ sọc, phong cách trẻ trung.",
+    "category": "Nam",
+    "createdAt": "2025-03-16T12:05:00Z"
+  },
+  {
+    "view": 901,
+    "name": "Áo Thun Dài Tay",
+    "price": 250000,
+    "image": "/img/p_img7.png",
+    "description": "Áo thun dài tay giữ ấm tốt, phù hợp mặc trong mùa thu đông.",
+    "category": "Nam",
+    "createdAt": "2025-03-15T09:30:00Z"
+  },
+  {
+    "view": 231,
+    "name": "Quần Jean Slimfit",
+    "price": 500000,
+    "image": "/img/p_img8.png",
+    "description": "Quần jean nam dáng slimfit, co giãn tốt, mặc thoải mái.",
+    "category": "Nữ",
+    "createdAt": "2025-03-14T11:10:00Z"
+  },
+  {
+    "view": 222,
+    "name": "Quần Kaki Nam",
+    "price": 480000,
+    "image": "/img/p_img9.png",
+    "description": "Quần kaki vải dày, không nhăn, giữ form tốt.",
+    "category": "Nữ",
+    "createdAt": "2025-03-13T13:40:00Z"
+  },
+  {
+    "view": 513,
+    "name": "Quần Jogger Thể Thao",
+    "price": 420000,
+    "image": "/img/p_img10.png",
+    "description": "Quần jogger chất liệu thun co giãn, thích hợp tập gym, chạy bộ.",
+    "category": "Nam",
+    "createdAt": "2025-03-12T15:20:00Z"
+  },
+  {
+    "view": 271,
+    "name": "Áo Len Cổ Lọ",
+    "price": 400000,
+    "image": "/img/p_img11.png",
+    "description": "Áo len cổ lọ giữ ấm tốt, chất liệu len mềm mại.",
+    "category": "Nữ",
+    "createdAt": "2025-03-11T10:00:00Z"
+  },
+  {
+    "view": 411,
+    "name": "Quần Short N",
+    "price": 280000,
+    "image": "/img/p_img12.png",
+    "description": "Quần short kaki  thoải mái, thích hợp mùa hè.",
+    "category": "Nữ",
+    "createdAt": "2025-03-10T09:15:00Z"
+  },
+  {
+    "view": 623,
+    "name": "Bộ Đồ Thể Thao ",
+    "price": 650000,
+    "image": "/img/p_img33.png",
+    "description": "Bộ đồ thể thao  thoáng mát, thích hợp vận động.",
+    "category": "Nữ",
+    "createdAt": "2025-03-09T08:45:00Z"
+  },
+  {
+    "view": 753,
+    "name": "Bộ Đồ Ngủ Cotton",
+    "price": 350000,
+    "image": "/img/p_img14.png",
+    "description": "Bộ đồ ngủ cotton mềm mại, mang lại giấc ngủ ngon.",
+    "category": "Nam",
+    "createdAt": "2025-03-08T14:30:00Z"
+  },
+  {
+    "view": 951,
+    "name": "Áo Khoác Gió Nam",
+    "price": 500000,
+    "image": "/img/p_img15.png",
+    "description": "Áo khoác gió chống nước, giữ ấm tốt.",
+    "category": "Nam",
+    "createdAt": "2025-03-07T13:50:00Z"
+  },
+  {
+    "view": 456,
+    "name": "Áo Vest Công Sở",
+    "price": 950000,
+    "image": "/img/p_img16.png",
+    "description": "Áo vest cao cấp, lịch lãm, phù hợp đi làm, dự tiệc.",
+    "category": "Nam",
+    "createdAt": "2025-03-06T12:25:00Z"
+  },
+  {
+    "view": 126,
+    "name": "Áo Len Cổ Tim",
+    "price": 380000,
+    "image": "/img/p_img17.png",
+    "description": "Áo len cổ tim, giữ ấm tốt, dễ phối đồ.",
+    "category": "Nam",
+    "createdAt": "2025-03-05T11:55:00Z"
+  },
+  {
+    "view": 423,
+    "name": "Quần Tây Công Sở",
+    "price": 520000,
+    "image": "/img/p_img18.png",
+    "description": "Quần tây nam công sở, form đứng, lịch sự.",
+    "category": "Nữ",
+    "createdAt": "2025-03-04T10:40:00Z"
+  },
+  {
+    "view": 751,
+    "name": "Bộ Suit Cao Cấp",
+    "price": 2500000,
+    "image": "/img/p_img19.png",
+    "description": "Bộ suit nam sang trọng, lịch lãm, chất liệu cao cấp.",
+    "category": "Nữ",
+    "createdAt": "2025-03-03T09:10:00Z"
+  },
+  {
+    "view": 146,
+    "name": "Áo Tanktop Thể Thao",
+    "price": 200000,
+    "image": "/img/p_img20.png",
+    "description": "Áo tanktop thể thao thoáng mát, phù hợp tập luyện.",
+    "category": "Nữ",
+    "createdAt": "2025-03-02T07:55:00Z"
+  },
+  {
+    "view": 135,
+    "name": "Áo Gile Len",
+    "price": 320000,
+    "image": "/img/p_img21.png",
+    "description": "Áo gile len phong cách vintage, giữ ấm tốt.",
+    "category": "Nam",
+    "createdAt": "2025-03-01T06:30:00Z"
+  },
+  {
+    "view": 852,
+    "name": "Quần Baggy Kaki",
+    "price": 460000,
+    "image": "/img/p_img22.png",
+    "description": "Quần baggy kaki thoải mái, dễ phối đồ.",
+    "category": "Nam",
+    "createdAt": "2025-02-28T05:20:00Z"
+  }
+]
