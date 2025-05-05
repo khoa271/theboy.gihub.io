@@ -1,12 +1,4 @@
-// Tải dotenv với đường dẫn tuyệt đối và kiểm tra lỗi
-const path = require('path');
-const dotenv = require('dotenv');
-const dotenvResult = dotenv.config({ path: path.resolve(__dirname, '.env') });
-if (dotenvResult.error) {
-    console.error('❌ Lỗi khi tải file .env:', dotenvResult.error.message);
-    process.exit(1);
-}
-
+require('dotenv').config(); // Tải .env từ thư mục gốc
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -57,7 +49,6 @@ app.use('/api/user', userRoutes);
 // Khởi động server
 app.listen(port, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
-    console.log(`✅ Thư mục làm việc hiện tại: ${__dirname}`);
     console.log(`✅ Biến môi trường JWT_SECRET: ${process.env.JWT_SECRET || 'chưa được định nghĩa'}`);
     console.log(`✅ Biến môi trường MONGODB_URI: ${process.env.MONGODB_URI || 'chưa được định nghĩa'}`);
     console.log(`✅ Các origin được phép: ${allowedOrigins.join(', ')}`);

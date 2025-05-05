@@ -1,12 +1,4 @@
-// Tải dotenv với đường dẫn tuyệt đối và kiểm tra lỗi
-const path = require('path');
-const dotenv = require('dotenv');
-const dotenvResult = dotenv.config({ path: path.resolve(__dirname, '.env') });
-if (dotenvResult.error) {
-    console.error('❌ Lỗi khi tải file .env:', dotenvResult.error.message);
-    process.exit(1);
-}
-
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
@@ -19,15 +11,8 @@ const app = express();
 const port = 3001;
 
 // Cấu hình CORS
-const allowedOrigins = ['http://localhost:3000', 'http://localhost:5173'];
 app.use(cors({
-    origin: (origin, callback) => {
-        if (!origin || allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error(`Origin ${origin} not allowed by CORS`));
-        }
-    },
+    origin: 'http://localhost:3000',
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -37,12 +22,11 @@ app.use(cors({
 app.use(express.json());
 
 // Kết nối MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/DATN';
-mongoose.connect(mongoUri, {
+mongoose.connect('mongodb://127.0.0.1:27017/DATN', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log('✅ Kết nối thành công với MongoDB tại:', mongoUri))
+.then(() => console.log('✅ Kết nối thành công với MongoDB'))
 .catch(err => console.error('❌ Lỗi kết nối MongoDB:', err.message));
 
 // Phục vụ file tĩnh
@@ -57,8 +41,5 @@ app.use('/api/user', userRoutes);
 // Khởi động server
 app.listen(port, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
-    console.log(`✅ Thư mục làm việc hiện tại: ${__dirname}`);
     console.log(`✅ Biến môi trường JWT_SECRET: ${process.env.JWT_SECRET || 'chưa được định nghĩa'}`);
-    console.log(`✅ Biến môi trường MONGODB_URI: ${process.env.MONGODB_URI || 'chưa được định nghĩa'}`);
-    console.log(`✅ Các origin được phép: ${allowedOrigins.join(', ')}`);
 });

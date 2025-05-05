@@ -1,7 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const mongoose = require('mongoose');
 const User = require('../models/UserModel.js');
 
 const router = express.Router();
@@ -11,11 +11,6 @@ router.post('/register', async (req, res) => {
     console.log('🛠 Đăng ký người dùng:', { name, email });
 
     try {
-        if (!email || !password || !name) {
-            console.log('❌ Thiếu thông tin:', { name, email, password });
-            return res.status(400).json({ success: false, message: 'Vui lòng cung cấp đầy đủ tên, email và mật khẩu' });
-        }
-
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             console.log('❌ Email đã tồn tại:', email);
@@ -26,6 +21,7 @@ router.post('/register', async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
+        // Kiểm tra JWT_SECRET
         if (!process.env.JWT_SECRET) {
             console.error('❌ Biến môi trường JWT_SECRET không được định nghĩa');
             return res.status(500).json({ success: false, message: 'Lỗi server: Thiếu cấu hình JWT_SECRET' });
@@ -42,31 +38,22 @@ router.post('/register', async (req, res) => {
 
 router.post('/login', async (req, res) => {
     const { email, password } = req.body;
-    console.log('🛠 Đăng nhập người dùng:', { email, password });
+    console.log('🛠 Đăng nhập người dùng:', { email });
 
     try {
-        if (!email || !password) {
-            console.log('❌ Thiếu thông tin:', { email, password });
-            return res.status(400).json({ success: false, message: 'Vui lòng cung cấp email và mật khẩu' });
-        }
-
-        if (mongoose.connection.readyState !== 1) {
-            console.error('❌ MongoDB chưa kết nối');
-            return res.status(500).json({ success: false, message: 'Lỗi server: Không thể kết nối tới database' });
-        }
-
         const user = await User.findOne({ email });
         if (!user) {
             console.log('❌ Không tìm thấy người dùng:', email);
-            return res.status(401).json({ success: false, message: 'Sai email hoặc mật khẩu' });
+            return res.json({ success: false, message: 'Sai email hoặc mật khẩu' });
         }
 
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
             console.log('❌ Mật khẩu không khớp:', email);
-            return res.status(401).json({ success: false, message: 'Sai email hoặc mật khẩu' });
+            return res.json({ success: false, message: 'Sai email hoặc mật khẩu' });
         }
 
+        // Kiểm tra JWT_SECRET
         if (!process.env.JWT_SECRET) {
             console.error('❌ Biến môi trường JWT_SECRET không được định nghĩa');
             return res.status(500).json({ success: false, message: 'Lỗi server: Thiếu cấu hình JWT_SECRET' });

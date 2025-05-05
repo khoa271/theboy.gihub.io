@@ -271,10 +271,10 @@ const ShopContextProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem('token') || '');
     const navigate = useNavigate();
 
-    // Đồng bộ token từ localStorage
+    // Tải token từ localStorage khi component khởi tạo
     useEffect(() => {
         const savedToken = localStorage.getItem("token");
-        if (savedToken && savedToken !== token) {
+        if (savedToken && !token) {
             setToken(savedToken);
         }
     }, []);
@@ -318,25 +318,23 @@ const ShopContextProvider = ({ children }) => {
     };
 
     // Lấy giỏ hàng của người dùng
-    const getUserCart = async (currentToken) => {
+    const getUserCart = async () => {
         try {
-            if (!currentToken) {
-                throw new Error("Không tìm thấy token! Vui lòng đăng nhập lại.");
+            const token = localStorage.getItem("token");
+            if (!token) {
+                throw new Error("Không tìm thấy token!");
             }
 
             const response = await fetch(`${backendUrl}/api/cart/get`, {
                 method: "GET",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${currentToken}`
+                    "Authorization": `Bearer ${token}`
                 }
             });
 
             if (!response.ok) {
                 const errorData = await response.json();
-                if (response.status === 401) {
-                    throw new Error("Token không hợp lệ hoặc đã hết hạn!");
-                }
                 throw new Error(errorData.message || "Lỗi lấy giỏ hàng!");
             }
 
@@ -345,11 +343,6 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.error("Lỗi khi lấy giỏ hàng:", error.message);
             toast.error(error.message);
-            if (error.message.includes("Token không hợp lệ")) {
-                localStorage.removeItem("token");
-                setToken("");
-                navigate('/login');
-            }
         }
     };
 
@@ -358,9 +351,8 @@ const ShopContextProvider = ({ children }) => {
         getProductsData();
         getLatestProducts();
         getBestSellerProducts();
-        const currentToken = localStorage.getItem("token");
-        if (currentToken) {
-            getUserCart(currentToken);
+        if (token) {
+            getUserCart();
         }
     }, [token]);
 
@@ -371,14 +363,6 @@ const ShopContextProvider = ({ children }) => {
             return;
         }
 
-        const currentToken = localStorage.getItem("token");
-        if (!currentToken) {
-            toast.error("Vui lòng đăng nhập để thêm sản phẩm!");
-            navigate('/login');
-            return;
-        }
-
-        // Cập nhật giỏ hàng cục bộ
         let cartData = structuredClone(cartItems);
         cartData[itemId] = cartData[itemId] || {};
         cartData[itemId][size] = (cartData[itemId][size] || 0) + 1;
@@ -387,45 +371,40 @@ const ShopContextProvider = ({ children }) => {
         localStorage.setItem('cartItems', JSON.stringify(cartData));
         toast.success('Đã thêm vào giỏ hàng!');
 
+        if (!token) {
+            toast.error("Bạn chưa đăng nhập!");
+            return;
+        }
+
         try {
             const response = await fetch(`${backendUrl}/api/cart/update`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
-                    "Authorization": `Bearer ${currentToken}`
+                    "Authorization": `Bearer ${token}`
                 },
                 body: JSON.stringify({ itemId, size, quantity: cartData[itemId][size] }),
             });
 
             const data = await response.json();
-            if (!data.success) {
-                throw new Error(data.message || "Lỗi khi cập nhật giỏ hàng!");
-            }
-            setCartItems(data.cart || cartData);
+            if (!data.success) throw new Error(data.message);
         } catch (error) {
             console.error("Lỗi khi thêm vào giỏ hàng:", error.message);
             toast.error(error.message);
-            if (error.message.includes("Token không hợp lệ")) {
-                localStorage.removeItem("token");
-                setToken("");
-                navigate('/login');
-            }
-            getUserCart(currentToken);
         }
     };
 
     // Cập nhật số lượng sản phẩm
     const updateQuantity = async (itemId, size, quantity) => {
-        const currentToken = localStorage.getItem("token");
-        if (!currentToken) {
-            toast.error("Vui lòng đăng nhập!");
-            navigate('/login');
+        if (!token) {
+            toast.error("Bạn chưa đăng nhập!");
             return;
         }
         if (quantity < 1) {
             return removeItemFromCart(itemId, size);
         }
 
+        // Cập nhật cục bộ trước để giao diện phản hồi nhanh
         let cartData = structuredClone(cartItems);
         if (!cartData[itemId]) cartData[itemId] = {};
         cartData[itemId][size] = quantity;
@@ -438,7 +417,7 @@ const ShopContextProvider = ({ children }) => {
                 { itemId, size, quantity },
                 {
                     headers: {
-                        "Authorization": `Bearer ${currentToken}`
+                        "Authorization": `Bearer ${token}`
                     }
                 }
             );
@@ -451,24 +430,19 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.error("Lỗi khi cập nhật số lượng:", error.message);
             toast.error(error.message);
-            if (error.message.includes("Token không hợp lệ")) {
-                localStorage.removeItem("token");
-                setToken("");
-                navigate('/login');
-            }
-            getUserCart(currentToken);
+            // Hoàn nguyên trạng thái nếu API thất bại
+            getUserCart();
         }
     };
 
     // Xóa sản phẩm khỏi giỏ hàng
     const removeItemFromCart = async (itemId, size) => {
-        const currentToken = localStorage.getItem("token");
-        if (!currentToken) {
-            toast.error("Vui lòng đăng nhập!");
-            navigate('/login');
+        if (!token) {
+            toast.error("Bạn chưa đăng nhập!");
             return;
         }
 
+        // Cập nhật cục bộ trước
         let cartData = structuredClone(cartItems);
         if (cartData[itemId] && cartData[itemId][size]) {
             delete cartData[itemId][size];
@@ -485,7 +459,7 @@ const ShopContextProvider = ({ children }) => {
                 { itemId, size, quantity: 0 },
                 {
                     headers: {
-                        "Authorization": `Bearer ${currentToken}`
+                        "Authorization": `Bearer ${token}`
                     }
                 }
             );
@@ -499,27 +473,21 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.error("Lỗi khi xóa sản phẩm:", error.message);
             toast.error(error.message);
-            if (error.message.includes("Token không hợp lệ")) {
-                localStorage.removeItem("token");
-                setToken("");
-                navigate('/login');
-            }
-            getUserCart(currentToken);
+            // Hoàn nguyên trạng thái nếu API thất bại
+            getUserCart();
         }
     };
 
     // Xóa toàn bộ giỏ hàng
     const clearCart = async () => {
-        const currentToken = localStorage.getItem("token");
-        if (!currentToken) {
-            toast.error("Vui lòng đăng nhập!");
-            navigate('/login');
+        if (!token) {
+            toast.error("Bạn chưa đăng nhập!");
             return;
         }
         try {
             const response = await axios.delete(`${backendUrl}/api/cart/clear`, {
                 headers: {
-                    "Authorization": `Bearer ${currentToken}`
+                    "Authorization": `Bearer ${token}`
                 }
             });
             if (response.data.success) {
@@ -530,11 +498,6 @@ const ShopContextProvider = ({ children }) => {
         } catch (error) {
             console.error("Lỗi khi xóa giỏ hàng:", error.message);
             toast.error(error.message);
-            if (error.message.includes("Token không hợp lệ")) {
-                localStorage.removeItem("token");
-                setToken("");
-                navigate('/login');
-            }
         }
     };
 
@@ -563,7 +526,6 @@ const ShopContextProvider = ({ children }) => {
         setToken("");
         setCartItems({});
         toast.success("Đã đăng xuất!");
-        navigate('/login');
     };
 
     // Cung cấp dữ liệu cho các component con

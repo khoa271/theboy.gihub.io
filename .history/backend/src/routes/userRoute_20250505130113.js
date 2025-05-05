@@ -11,6 +11,7 @@ router.post('/register', async (req, res) => {
     console.log('🛠 Đăng ký người dùng:', { name, email });
 
     try {
+        // Kiểm tra dữ liệu đầu vào
         if (!email || !password || !name) {
             console.log('❌ Thiếu thông tin:', { name, email, password });
             return res.status(400).json({ success: false, message: 'Vui lòng cung cấp đầy đủ tên, email và mật khẩu' });
@@ -26,6 +27,7 @@ router.post('/register', async (req, res) => {
         const newUser = new User({ name, email, password: hashedPassword });
         await newUser.save();
 
+        // Kiểm tra JWT_SECRET
         if (!process.env.JWT_SECRET) {
             console.error('❌ Biến môi trường JWT_SECRET không được định nghĩa');
             return res.status(500).json({ success: false, message: 'Lỗi server: Thiếu cấu hình JWT_SECRET' });
@@ -45,11 +47,13 @@ router.post('/login', async (req, res) => {
     console.log('🛠 Đăng nhập người dùng:', { email, password });
 
     try {
+        // Kiểm tra dữ liệu đầu vào
         if (!email || !password) {
             console.log('❌ Thiếu thông tin:', { email, password });
             return res.status(400).json({ success: false, message: 'Vui lòng cung cấp email và mật khẩu' });
         }
 
+        // Kiểm tra trạng thái MongoDB
         if (mongoose.connection.readyState !== 1) {
             console.error('❌ MongoDB chưa kết nối');
             return res.status(500).json({ success: false, message: 'Lỗi server: Không thể kết nối tới database' });
@@ -67,6 +71,7 @@ router.post('/login', async (req, res) => {
             return res.status(401).json({ success: false, message: 'Sai email hoặc mật khẩu' });
         }
 
+        // Kiểm tra JWT_SECRET
         if (!process.env.JWT_SECRET) {
             console.error('❌ Biến môi trường JWT_SECRET không được định nghĩa');
             return res.status(500).json({ success: false, message: 'Lỗi server: Thiếu cấu hình JWT_SECRET' });

@@ -13,8 +13,8 @@ POST http://localhost:3001/api/user/login
 Content-Type: application/json
 
 {
-  "email": "hai@gmail.com",
-  "password": "123"
+  "email": "nguyenvana@example.com",
+  "password": "123456"
 }
 
 ### thanh toan momo
