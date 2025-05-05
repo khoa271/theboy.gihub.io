@@ -11,7 +11,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const cartRoute = require('./routes/cartRoute.js');
-const productRoutes = require('./routes/productsRoute.js'); // Đảm bảo tên file khớp
+const productRoutes = require('./routes/productsRoute.js');
 const paymentRoutes = require('./routes/paymentRoutes.js');
 const userRoutes = require('./routes/userRoute.js');
 
@@ -36,17 +36,14 @@ app.use(cors({
 // Middleware xử lý JSON
 app.use(express.json());
 
-// Bật debug mode của Mongoose
-mongoose.set('debug', true);
-
 // Kết nối MongoDB
-const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/DATN';
+const mongoUri = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/DATN/';
 mongoose.connect(mongoUri, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
 .then(() => console.log('✅ Kết nối thành công với MongoDB tại:', mongoUri))
-.catch(err => console.error('❌ Lỗi kết nối MongoDB:', err));
+.catch(err => console.error('❌ Lỗi kết nối MongoDB:', err.message));
 
 // Phục vụ file tĩnh
 app.use('/img', express.static('img'));
@@ -60,4 +57,8 @@ app.use('/api/user', userRoutes);
 // Khởi động server
 app.listen(port, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${port}`);
+    console.log(`✅ Thư mục làm việc hiện tại: ${__dirname}`);
+    console.log(`✅ Biến môi trường JWT_SECRET: ${process.env.JWT_SECRET || 'chưa được định nghĩa'}`);
+    console.log(`✅ Biến môi trường MONGODB_URI: ${process.env.MONGODB_URI || 'chưa được định nghĩa'}`);
+    console.log(`✅ Các origin được phép: ${allowedOrigins.join(', ')}`);
 });

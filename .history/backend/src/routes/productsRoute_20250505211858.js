@@ -8,6 +8,7 @@ router.get('/list', async (req, res) => {
     try {
         console.log('🛠 Gửi yêu cầu lấy danh sách sản phẩm');
         const products = await ProductModel.find();
+        console.log('✅ Trả về', products.length, 'sản phẩm');
         res.json({ success: true, products });
     } catch (err) {
         console.error('❌ Lỗi lấy danh sách sản phẩm:', err);
@@ -20,6 +21,7 @@ router.get('/latest', async (req, res) => {
     try {
         console.log('🛠 Gửi yêu cầu lấy sản phẩm mới nhất');
         const latestProducts = await ProductModel.find().sort({ createdAt: -1 }).limit(4);
+        console.log('✅ Trả về', latestProducts.length, 'sản phẩm mới nhất');
         res.json({ success: true, products: latestProducts });
     } catch (err) {
         console.error('❌ Lỗi lấy sản phẩm mới nhất:', err);
@@ -32,6 +34,7 @@ router.get('/best', async (req, res) => {
     try {
         console.log('🛠 Gửi yêu cầu lấy sản phẩm bán chạy');
         const bestSellers = await ProductModel.find({ bestseller: true }).limit(4);
+        console.log('✅ Trả về', bestSellers.length, 'sản phẩm bán chạy');
         res.json({ success: true, products: bestSellers });
     } catch (err) {
         console.error('❌ Lỗi lấy sản phẩm bán chạy:', err);
